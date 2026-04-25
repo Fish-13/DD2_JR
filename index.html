@@ -9,15 +9,21 @@
 <body>
     <canvas id="matrix"></canvas>
 
-    <div id="loader" class="overlay-text">LOADING DATABASE...</div>
+    <div id="chat-container" class="chat-wrapper">
+        <div class="bubble" id="b1">Initializing system...</div>
+        <div class="bubble" id="b2">Loading database...</div>
+        <div class="bubble" id="b3">Bypassing firewall...</div>
+    </div>
 
-    <div id="welcome" class="overlay-text" style="display: none;">WELCOME</div>
+    <div id="welcome-screen" class="exchange-screen">
+        <h2 class="welcome-text">WELCOME</h2>
+    </div>
 
-    <div id="ui" class="container" style="display: none;">
+    <div id="main-ui" class="container">
         <h1 class="main-title">DD2_JR</h1>
         <div class="button-group">
             <a href="YOUR_DISCORD_LINK" target="_blank" class="btn">JOIN DISCORD SERVER</a>
-            <a href="YOUR_DISCORD_PROFILE_LINK" target="_blank" class="btn">ADD DD2_JR</a>
+            <a href="#" class="btn">ADD DD2_JR</a>
         </div>
     </div>
 
@@ -27,7 +33,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const letters = "01010101";
+        const letters = "0101";
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
@@ -44,19 +50,35 @@
                 drops[i]++;
             }
         }
-
-        // Timing Sequence
         setInterval(draw, 33);
 
+        // Animation Sequence (The "Exchange")
+        const b1 = document.getElementById('b1');
+        const b2 = document.getElementById('b2');
+        const b3 = document.getElementById('b3');
+        const chat = document.getElementById('chat-container');
+        const welcome = document.getElementById('welcome-screen');
+        const ui = document.getElementById('main-ui');
+
+        setTimeout(() => b1.classList.add('show'), 500);
+        setTimeout(() => b2.classList.add('show'), 1200);
+        setTimeout(() => b3.classList.add('show'), 1900);
+
         setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('welcome').style.display = 'block';
-            
+            chat.classList.add('fade-out');
             setTimeout(() => {
-                document.getElementById('welcome').style.display = 'none';
-                document.getElementById('ui').style.display = 'flex';
-            }, 2000); // Welcome shows for 2 sec
-        }, 3000); // Loading shows for 3 sec
+                chat.style.display = 'none';
+                welcome.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    welcome.classList.replace('fade-in', 'fade-out');
+                    setTimeout(() => {
+                        welcome.style.display = 'none';
+                        ui.classList.add('fade-in');
+                    }, 800);
+                }, 1500);
+            }, 800);
+        }, 3500);
     </script>
 </body>
 </html>
