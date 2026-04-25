@@ -3,149 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DD2_JR // LIQUID</title>
+    <title>DD2_JR // OVERDRIVE</title>
     <style>
-        /* TOTAL NY STIL: VITT, SILVER OCH KROM */
-        body, html { 
-            margin: 0; padding: 0; width: 100%; height: 100%; 
-            background: #e0e0e0; /* Börjar ljust silver */
-            overflow: hidden; font-family: 'Syncopate', sans-serif; 
+        /* TOTAL NY DESIGN - INGET MATRIX */
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background: #0d001a; /* Mörklila bas */
+            color: #fff; font-family: 'Avenir', 'Helvetica', sans-serif;
+            overflow: hidden; display: flex; justify-content: center; align-items: center;
         }
 
-        #glitch-canvas { position: fixed; top: 0; left: 0; z-index: 1; }
-
-        /* DETTA ÄR OVERLAYEN SOM GÖR ATT DET SER UT SOM GLAS */
-        .glass-overlay {
+        /* RETRO GRID BAKGRUND */
+        .grid-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(2px);
-            z-index: 10; pointer-events: none;
-            border: 20px solid #fff; box-sizing: border-box;
+            background-image: 
+                linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center bottom;
+            animation: moveGrid 2s linear infinite;
+            z-index: 1;
         }
 
-        .container {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 100; text-align: center; width: 100%;
+        @keyframes moveGrid {
+            from { background-position: 0 0; }
+            to { background-position: 0 50px; }
         }
 
-        /* WELCOME TEXT - FLYTANDE STIL */
-        #welcome {
-            font-size: 5vw; color: #000; letter-spacing: 40px;
-            font-weight: 900; opacity: 0; text-transform: uppercase;
-            transition: 1s ease;
+        /* GLÖDANDE SOL */
+        .sun {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: linear-gradient(#ff0080, #ff8c00);
+            border-radius: 50%;
+            box-shadow: 0 0 100px #ff0080;
+            z-index: 0;
         }
 
-        /* FINAL UI - KROM OCH NEON BLÅ */
-        #ui { display: none; flex-direction: column; align-items: center; opacity: 0; }
-        
-        .main-title {
-            font-size: 8rem; color: #000; margin: 0;
-            letter-spacing: -5px; text-transform: uppercase;
-            text-shadow: 5px 5px 0px #00f0ff, -5px -5px 0px #ff007a;
-            animation: move 0.2s infinite alternate;
+        .content {
+            position: relative; z-index: 10; text-align: center;
         }
 
-        .btn-container { margin-top: 40px; }
-
-        .cyber-btn {
-            background: #000; color: #fff; padding: 25px 50px;
-            text-decoration: none; font-size: 1.2rem; font-weight: bold;
-            display: inline-block; margin: 15px; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-            transition: 0.2s; border: none; letter-spacing: 3px;
+        /* INTRO SEKVENSS */
+        #blackout {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 1000; transition: opacity 1s;
         }
 
-        .cyber-btn:hover {
-            background: #00f0ff; color: #000; transform: scale(1.1);
-            box-shadow: 20px 0px 0px #ff007a;
+        /* TITEL - DD2_JR */
+        .main-name {
+            font-size: 10vw; font-weight: 900; font-style: italic;
+            text-transform: uppercase; margin: 0;
+            background: linear-gradient(#00f2ff, #006aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px #00f2ff);
+            letter-spacing: -5px;
         }
 
-        @keyframes move {
-            from { transform: skew(2deg); }
-            to { transform: skew(-2deg); }
+        .links { margin-top: 50px; display: flex; gap: 20px; justify-content: center; }
+
+        .btn {
+            padding: 20px 40px; border: none; font-weight: bold;
+            text-transform: uppercase; cursor: pointer; text-decoration: none;
+            background: #fff; color: #000; letter-spacing: 2px;
+            transition: 0.3s; clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
         }
+
+        .btn:hover {
+            background: #ff0080; color: #fff;
+            transform: scale(1.1) rotate(-3deg);
+            box-shadow: 0 0 50px #ff0080;
+        }
+
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="glass-overlay"></div>
-    <canvas id="glitch-canvas"></canvas>
+    <div id="blackout"></div>
+    <div class="grid-bg"></div>
+    <div class="sun"></div>
 
-    <div class="container">
-        <h1 id="welcome">SYSTEM_READY</h1>
-        
-        <div id="ui">
-            <h1 class="main-title">DD2_JR</h1>
-            <div class="btn-container">
-                <a href="#" class="cyber-btn">DISCORD SERVER</a>
-                <a href="#" class="cyber-btn">ADD ME</a>
-            </div>
+    <div class="content">
+        <h1 class="main-name">DD2_JR</h1>
+        <div class="links">
+            <a href="DIN_DISCORD_LÄNK" class="btn">Discord Server</a>
+            <a href="DIN_PROFIL_LÄNK" class="btn">Add Friend</a>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('glitch-canvas');
-        const ctx = canvas.getContext('2d');
-        let w, h;
+        // Startsekvens: Allt är svart, sen tonas allt in
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('blackout').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('blackout').style.display = 'none';
+                }, 1000);
+            }, 1000);
+        };
 
-        function init() {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-        }
-        window.onresize = init;
-        init();
-
-        // Ritar slumpmässiga "kromade" linjer 24/7
-        function drawLiquid() {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            ctx.fillRect(0, 0, w, h);
-            
-            for(let i=0; i<5; i++) {
-                ctx.beginPath();
-                ctx.lineWidth = Math.random() * 20;
-                ctx.strokeStyle = Math.random() > 0.5 ? '#00f0ff' : '#ff007a';
-                ctx.moveTo(Math.random() * w, 0);
-                ctx.lineTo(Math.random() * w, h);
-                ctx.stroke();
+        // Enkel slumpmässig "jitter" effekt på titeln bara för att det ska leva lite
+        setInterval(() => {
+            if(Math.random() > 0.98) {
+                document.querySelector('.main-name').style.transform = `translateX(${Math.random()*10-5}px)`;
+                setTimeout(() => {
+                    document.querySelector('.main-name').style.transform = 'none';
+                }, 50);
             }
-        }
-
-        async function start() {
-            const wait = (ms) => new Promise(r => setTimeout(r, ms));
-            const welcome = document.getElementById('welcome');
-            const ui = document.getElementById('ui');
-
-            // 1. ALLT BLIR HEL SVART FÖRST (Som du ville)
-            document.body.style.background = "#000";
-            await wait(1500);
-
-            // 2. EXPLOSION AV GLITCH
-            const glitchInterval = setInterval(drawLiquid, 50);
-            document.body.style.background = "#e0e0e0";
-            await wait(2000);
-
-            // 3. WELCOME dyker upp
-            welcome.style.opacity = "1";
-            welcome.style.letterSpacing = "10px";
-            await wait(3000);
-            welcome.style.opacity = "0";
-            await wait(1000);
-            welcome.style.display = "none";
-
-            // 4. FINAL UI
-            ui.style.display = "flex";
-            setTimeout(() => ui.style.opacity = "1", 100);
-
-            // 24/7 "Liquid Shake"
-            setInterval(() => {
-                if(Math.random() > 0.9) {
-                    canvas.style.transform = `translateX(${Math.random()*20-10}px)`;
-                    setTimeout(() => canvas.style.transform = 'none', 30);
-                }
-            }, 100);
-        }
-
-        start();
+        }, 100);
     </script>
 </body>
 </html>
