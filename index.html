@@ -3,39 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DD2_JR | Secure Access</title>
+    <title>DD2_JR</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="matrix-bg"></div>
-    <div class="overlay"></div>
+    <canvas id="matrix"></canvas>
 
-    <div class="terminal">
-        <header>
-            <h1 class="glitch" data-text="SYSTEM STATUS: ACTIVE">SYSTEM STATUS: ACTIVE</h1>
-            <h2 class="access-granted">ACCESS GRANTED</h2>
-        </header>
+    <div id="loader" class="overlay-text">LOADING DATABASE...</div>
 
-        <div class="grid">
-            <div class="card">
-                <i class="fa-brands fa-discord"></i>
-                <h3>COMMUNITY</h3>
-                <p>Join the official Discord server.</p>
-                <a href="YOUR_DISCORD_LINK" target="_blank" class="btn">CONNECT</a>
-            </div>
+    <div id="welcome" class="overlay-text" style="display: none;">WELCOME</div>
 
-            <div class="card">
-                <i class="fa-solid fa-database"></i>
-                <h3>DATABASE</h3>
-                <p>Access the digital archives.</p>
-                <a href="#" class="btn">ENTER</a>
-            </div>
+    <div id="ui" class="container" style="display: none;">
+        <h1 class="main-title">DD2_JR</h1>
+        <div class="button-group">
+            <a href="YOUR_DISCORD_LINK" target="_blank" class="btn">JOIN DISCORD SERVER</a>
+            <a href="YOUR_DISCORD_PROFILE_LINK" target="_blank" class="btn">ADD DD2_JR</a>
         </div>
-
-        <footer>
-            <p class="status-text">Connection established... Node: DD2_JR</p>
-        </footer>
     </div>
+
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "01010101";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0F0";
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+
+        // Timing Sequence
+        setInterval(draw, 33);
+
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('welcome').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('welcome').style.display = 'none';
+                document.getElementById('ui').style.display = 'flex';
+            }, 2000); // Welcome shows for 2 sec
+        }, 3000); // Loading shows for 3 sec
+    </script>
 </body>
 </html>
