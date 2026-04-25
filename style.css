@@ -4,68 +4,107 @@ body {
     background-color: black;
     overflow: hidden;
     font-family: 'Courier New', Courier, monospace;
-    color: #0F0;
 }
 
 canvas {
-    display: block;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1;
 }
 
-.overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3rem;
-    letter-spacing: 10px;
-    text-shadow: 0 0 15px #0F0;
-    z-index: 10;
-}
-
-.container {
+/* Chat Bubbles */
+.chat-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 15px;
     z-index: 10;
-    width: 100%;
+}
+
+.bubble {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid #0F0;
+    color: #0F0;
+    padding: 12px 20px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.bubble.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Exchange Screens */
+.exchange-screen, .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    opacity: 0;
+    text-align: center;
+}
+
+.welcome-text {
+    font-size: 4rem;
+    color: #0F0;
+    letter-spacing: 20px;
+    text-shadow: 0 0 20px #0F0;
 }
 
 .main-title {
     font-size: 5rem;
-    margin-bottom: 40px;
+    color: #0F0;
+    margin-bottom: 30px;
     letter-spacing: 15px;
-    text-shadow: 0 0 20px #0F0;
+    text-shadow: 0 0 30px #0F0;
 }
 
+/* Button UI */
 .button-group {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .btn {
-    padding: 15px 30px;
+    padding: 15px 25px;
     border: 2px solid #0F0;
     color: #0F0;
     text-decoration: none;
+    background: rgba(0, 0, 0, 0.7);
+    transition: 0.4s;
     font-weight: bold;
-    font-size: 1.1rem;
-    background: rgba(0, 0, 0, 0.8);
-    transition: 0.3s;
 }
 
-/* Your hover effect: make it transparent to see background */
 .btn:hover {
-    background: rgba(0, 255, 0, 0.1); 
+    background: rgba(0, 255, 0, 0.05); /* Transparent hover as you asked */
     box-shadow: 0 0 20px #0F0;
-    cursor: pointer;
+    transform: scale(1.05);
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.8s forwards ease-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.8s forwards ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translate(-50%, -50%); }
+    to { opacity: 0; transform: translate(-50%, -60%); }
 }
