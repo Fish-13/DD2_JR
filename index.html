@@ -1,110 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERMINAL_ERROR</title>
+    <title>SYSTEM_STAY_AWAY</title>
     <style>
-        body { margin: 0; padding: 0; background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
-        
-        /* 1. SCREEN NOISE & SCANLINES (Hela tiden) */
-        .crt-base {
+        body { margin: 0; padding: 0; background: #000; overflow: hidden; font-family: 'serif', serif; }
+
+        /* CONSTANT NOISE FILTER */
+        .static-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
-                        repeating-linear-gradient(0deg, rgba(0,255,0,0.03) 0px, rgba(0,255,0,0.03) 1px, transparent 1px, transparent 2px);
-            z-index: 100; pointer-events: none;
+            background: url('https://media.giphy.com/media/oEI9uWUPr9WvA8PPmW/giphy.gif');
+            opacity: 0.07; z-index: 100; pointer-events: none;
         }
 
-        /* 2. DEN BRUTALA GLITCHEN */
-        #brutal-glitch {
+        /* THE NEVER-ENDING GLITCH */
+        #glitch-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 999; display: none;
-            background: #000;
-        }
-        .glitch-slice {
-            position: absolute; width: 110%; height: 2px;
-            background: white; box-shadow: 0 0 10px #ff0000, 0 0 20px #0000ff;
+            z-index: 99; pointer-events: none;
         }
 
-        /* 3. MATRIX BACKGROUND */
-        canvas { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0; filter: blur(1px); }
+        .glitch-bar {
+            position: absolute; width: 100%; 
+            background: rgba(139, 0, 0, 0.6);
+            box-shadow: 0 0 10px #ff0000;
+        }
 
-        /* 4. WELCOME USER (Nu med Glitch-effekt) */
-        #welcome-wrap {
+        /* BLOODY MATRIX */
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; filter: contrast(1.5) brightness(0.8); }
+
+        .content {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            display: none; z-index: 50;
-        }
-        .welcome-text {
-            font-size: 7vw; color: #0f0; letter-spacing: 15px; font-weight: bold;
-            position: relative; text-shadow: 3px 0 #f00, -3px 0 #00f;
-            animation: text-glitch 0.1s infinite;
+            z-index: 10; text-align: center; width: 100%;
         }
 
-        /* 5. SLUTGILTIG UI */
-        #ui { 
-            display: none; flex-direction: column; align-items: center; 
-            z-index: 60; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        /* HAUNTED TEXT 24/7 */
+        #welcome { 
+            font-size: 7vw; color: #eee; display: none;
+            letter-spacing: 15px; text-shadow: 4px 0 #8b0000, -4px 0 #333;
+            animation: infinite-shake 0.05s infinite;
         }
-        .title { font-size: 5rem; color: #0f0; text-shadow: 0 0 10px #0f0; margin-bottom: 20px; letter-spacing: 10px; }
+
+        #ui { display: none; flex-direction: column; align-items: center; }
+        
+        .title { 
+            font-size: 6rem; color: #8b0000; 
+            text-shadow: 0 0 20px #ff0000;
+            animation: infinite-shake 0.1s infinite;
+            letter-spacing: 10px;
+        }
+
         .btn {
-            padding: 15px 30px; border: 1px solid #0f0; color: #0f0; text-decoration: none;
-            background: rgba(0, 20, 0, 0.7); margin: 10px; font-weight: bold;
-            transition: 0.2s; text-transform: uppercase;
+            padding: 15px 40px; border: 1px solid #444; color: #8b0000; 
+            text-decoration: none; background: rgba(0,0,0,0.85); margin: 15px; 
+            font-weight: bold; transition: 0.05s;
+            text-transform: uppercase; letter-spacing: 5px;
+            display: inline-block;
         }
-        .btn:hover { background: #0f0; color: #000; box-shadow: 0 0 20px #0f0; }
 
-        /* ANIMATIONS */
-        @keyframes text-glitch {
-            0% { transform: translate(2px, 0); }
-            50% { transform: translate(-2px, -1px); opacity: 0.8; }
-            100% { transform: translate(0, 1px); }
+        .btn:hover { 
+            background: #ff0000; color: #000; 
+            box-shadow: 0 0 50px #ff0000;
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        /* KEYFRAMES FOR CONSTANT SHAKING */
+        @keyframes infinite-shake {
+            0% { transform: translate(2px, 2px) skew(2deg); }
+            25% { transform: translate(-2px, -2px) skew(-3deg); }
+            50% { transform: translate(3px, -1px) clip-path: inset(10% 0 20% 0); }
+            75% { transform: translate(-3px, 3px) skew(1deg); }
+            100% { transform: translate(1px, -2px); }
         }
     </style>
 </head>
 <body>
-    <div class="crt-base"></div>
-    <div id="brutal-glitch"></div>
+    <div class="static-overlay"></div>
+    <div id="glitch-layer"></div>
     <canvas id="matrix"></canvas>
 
-    <div id="welcome-wrap">
-        <h1 class="welcome-text">WELCOME USER</h1>
-    </div>
-
-    <div id="ui">
-        <h1 class="title">DD2_JR</h1>
-        <div class="btns">
-            <a href="#" class="btn">JOIN DISCORD</a>
-            <a href="#" class="btn">ADD FRIEND</a>
+    <div class="content">
+        <h1 id="welcome">WELCOME...</h1>
+        <div id="ui">
+            <h1 class="title">DD2_JR</h1>
+            <div class="btns">
+                <a href="#" class="btn">JOIN SERVER</a>
+                <a href="#" class="btn">HELP ME</a>
+            </div>
         </div>
     </div>
 
     <script>
-        const glitchLayer = document.getElementById('brutal-glitch');
+        const glitchLayer = document.getElementById('glitch-layer');
         
-        function triggerSlices() {
+        // Denna funktion körs hela tiden för att skapa nya "fel" på skärmen
+        function permanentGlitch() {
             glitchLayer.innerHTML = '';
-            for(let i=0; i<30; i++) {
-                let slice = document.createElement('div');
-                slice.className = 'glitch-slice';
-                slice.style.top = Math.random() * 100 + 'vh';
-                slice.style.left = '-5vw';
-                slice.style.height = Math.random() * 15 + 'px';
-                slice.style.background = `rgba(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255}, 0.8)`;
-                if(Math.random() > 0.7) slice.style.filter = 'invert(1)';
-                glitchLayer.appendChild(slice);
+            if (Math.random() > 0.7) { // 30% chans varje gång för en stor störning
+                for(let i=0; i<15; i++) {
+                    let slice = document.createElement('div');
+                    slice.className = 'glitch-bar';
+                    slice.style.top = Math.random() * 100 + 'vh';
+                    slice.style.height = Math.random() * 30 + 'px';
+                    slice.style.background = Math.random() > 0.5 ? '#8b0000' : '#fff';
+                    slice.style.left = (Math.random() * 4 - 2) + 'vw';
+                    glitchLayer.appendChild(slice);
+                }
             }
+            // Slumpmässig skärm-flash
+            document.body.style.filter = Math.random() > 0.98 ? 'invert(1)' : 'none';
         }
+        setInterval(permanentGlitch, 50); // Uppdaterar glitchen var 50:e millisekund
 
-        // Matrix Rain
+        // RED MATRIX
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = Array(Math.floor(canvas.width / 20)).fill(1);
         function draw() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#0f0"; ctx.font = "20px monospace";
+            ctx.fillStyle = "#ff0000"; ctx.font = "20px serif";
             drops.forEach((y, i) => {
-                ctx.fillText(Math.random() > 0.5 ? "1" : "0", i * 20, y * 20);
+                ctx.fillText(String.fromCharCode(0x30A0 + Math.random() * 96), i * 20, y * 20);
                 if (y * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             });
@@ -113,33 +130,17 @@
 
         async function sequence() {
             const wait = (ms) => new Promise(r => setTimeout(r, ms));
+            const welcome = document.getElementById('welcome');
+            const ui = document.getElementById('ui');
 
-            // 1. BLACK START
-            await wait(1200);
-
-            // 2. LONG BRUTAL GLITCH
-            glitchLayer.style.display = 'block';
-            for(let i=0; i<25; i++) {
-                triggerSlices();
-                await wait(Math.random() * 150);
-            }
-            glitchLayer.style.display = 'none';
-
-            // 3. BLACK PAUSE
-            await wait(2000);
-
-            // 4. MATRIX RAIN FADES IN
-            canvas.style.opacity = "1";
-            await wait(1000);
-
-            // 5. WELCOME USER WITH SHAKE
-            const welcome = document.getElementById('welcome-wrap');
+            await wait(2000); // Svart start
+            canvas.style.opacity = "0.5";
+            
             welcome.style.display = 'block';
             await wait(3000);
             welcome.style.display = 'none';
 
-            // 6. FINAL UI
-            document.getElementById('ui').style.display = 'flex';
+            ui.style.display = 'flex';
         }
 
         sequence();
